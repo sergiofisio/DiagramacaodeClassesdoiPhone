@@ -6,25 +6,44 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Bem-vindo ao iPhone!");
-        meuIPhone.ligar();
 
         String comando;
+        boolean exibirComandos = true;
+        boolean chamada = false;
         
         do {
-            System.out.println("Comandos disponíveis:");
-            System.out.println("1 - Tocar música");
-            System.out.println("2 - Pausar música");
-            System.out.println("3 - Parar música");
-            System.out.println("4 - Exibir página");
-            System.out.println("5 - Adicionar nova aba");
-            System.out.println("6 - Atualizar página");
-            System.out.println("7 - Iniciar correio de voz");
-            System.out.println("8 - Atender chamada");
-            System.out.println("9 - Desligar");
-            System.out.print("Digite o número do comando: ");
+            if (exibirComandos) {
+                System.out.println("Comandos disponíveis:");
+
+                System.out.println("ligar");
+                System.out.println("1 - Tocar música");
+                System.out.println("2 - Pausar música");
+                System.out.println("3 - Parar música");
+                System.out.println("4 - Exibir página");
+                System.out.println("5 - Adicionar nova aba");
+                System.out.println("6 - Atualizar página");
+                System.out.println("7 - Iniciar correio de voz");
+                System.out.println("8 - Atender chamada");
+                System.out.println("9 - Desligar chamada");
+                System.out.println("desligar");
+                System.out.println();
+                exibirComandos = false;
+            }
+
+            System.out.print("Digite o número do comando ou digite help para rever os comandos: ");
             comando = scanner.nextLine();
 
-            switch (comando) {
+            if (!meuIPhone.verificarEstado()) {
+                switch (comando) {
+                    case "ligar":
+                        meuIPhone.ligar();
+                        break;
+                }
+            } else {
+                switch (comando) {
+                    case "desligar":
+                        meuIPhone.desligar();
+                        break;
                 case "1":
                     if (meuIPhone.getMúsicaAtual() == null) {
                         System.out.print("Digite o nome da música: ");
@@ -60,15 +79,26 @@ public class Main {
                     meuIPhone.iniciarCorreioVoz();
                     break;
                 case "8":
+                    if (chamada) {
+                        System.out.println("Você ja esta em uma ligação. Encerre a ligação primeiro");
+                        break;
+                    } else {
                     meuIPhone.atender();
+                    chamada = true;
+                }
                     break;
                 case "9":
-                    meuIPhone.desligar();
+                    meuIPhone.desligarChamada();
+                    chamada = false;
+                    break;
+                case "help":
+                    exibirComandos = true;
                     break;
                 default:
                     System.out.println("Comando inválido.");
             }
-        } while (!comando.equals("9"));
+        }
+    } while (!comando.equals("desligar"));
 
         scanner.close();
     }

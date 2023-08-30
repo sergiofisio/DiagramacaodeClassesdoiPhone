@@ -11,15 +11,25 @@ public class iPhone implements ReprodutorMusical, AparelhoTelefonico, NavegadorI
         estáLigado = false;
     }
 
+    public boolean verificarEstado() {
+        if (!estáLigado) {
+            System.out.println("O iPhone está desligado. Ligue-o primeiro.");
+            return false;
+        }
+        return true;
+    }
+
     public String getMúsicaAtual() {
         return músicaAtual;
     }
 
     public void tocar() {
-        if (músicaAtual != null && estáLigado) {
+        if (!estáLigado) {
+            System.out.println(" iPhone desligado.");
+        } else if (músicaAtual != null) {
             System.out.println("Tocando música: " + músicaAtual);
         } else {
-            System.out.println("Nenhuma música selecionada ou iPhone desligado.");
+            System.out.println("Nenhuma música selecionada.");
         }
     }
 
@@ -57,6 +67,12 @@ public class iPhone implements ReprodutorMusical, AparelhoTelefonico, NavegadorI
         } else {
             System.out.println("O iPhone está desligado. Não é possível iniciar o correio de voz.");
         }
+    }
+
+    public void desligarChamada() {
+
+        System.out.println("Chamada terminada");
+
     }
     public void desligar() {
         
